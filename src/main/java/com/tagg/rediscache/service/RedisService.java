@@ -12,6 +12,9 @@ public class RedisService {
     @Value("bulk-change:max-file-record")
     private String fileCountMaxKey;
 
+    @Value("bulk-change:file-increment")
+    private String fileCountIncrement;
+
     public RedisService(RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
@@ -23,5 +26,9 @@ public class RedisService {
 
     public Long removeKey(final String key) {
         return redisTemplate.opsForHash().delete(fileCountMaxKey, key);
+    }
+
+    public void increment(final String key, final long value) {
+        redisTemplate.opsForHash().increment(fileCountIncrement, key, value);
     }
 }
